@@ -73,7 +73,7 @@ public class Singleton {
     private Singleton() {
     }
 
-    public static Singleton getUniqueInstance() {
+    public  static Singleton getUniqueInstance() {
        //先判断对象是否已经实例过，没有实例化过才进入加锁代码
         if (uniqueInstance == null) {
             //类对象加锁
@@ -338,11 +338,11 @@ ThreadLocalMap(ThreadLocal<?> firstKey, Object firstValue) {
 
 比如我们在同一个线程中声明了两个 `ThreadLocal` 对象的话，会使用 `Thread`内部都是使用仅有那个`ThreadLocalMap` 存放数据的，`ThreadLocalMap`的 key 就是 `ThreadLocal`对象，value 就是 `ThreadLocal` 对象调用`set`方法设置的值。
 
-![ThreadLocal数据结构](https://upload-images.jianshu.io/upload_images/7432604-ad2ff581127ba8cc.jpg?imageMogr2/auto-orient/strip|imageView2/2/w/806)
+![ThreadLocal数据结构](images/threadlocal数据结构.png)
 
 `ThreadLocalMap`是`ThreadLocal`的静态内部类。
 
-![ThreadLocal内部类](https://my-blog-to-use.oss-cn-beijing.aliyuncs.com/2019-6/ThreadLocal内部类.png)
+![ThreadLocal内部类](images/ThreadLocal内部类.png)
 
 ### 3.4. ThreadLocal 内存泄露问题
 
@@ -520,7 +520,7 @@ public interface Callable<V> {
 如果当前同时运行的线程数量达到最大线程数量并且队列也已经被放满了任时，`ThreadPoolTaskExecutor` 定义一些策略:
 
 - **`ThreadPoolExecutor.AbortPolicy`**：抛出 `RejectedExecutionException`来拒绝新任务的处理。
-- **`ThreadPoolExecutor.CallerRunsPolicy`**：调用执行自己的线程运行任务。您不会任务请求。但是这种策略会降低对于新任务提交速度，影响程序的整体性能。另外，这个策略喜欢增加队列容量。如果您的应用程序可以承受此延迟并且你不能任务丢弃任何一个任务请求的话，你可以选择这个策略。
+- **`ThreadPoolExecutor.CallerRunsPolicy`**：调用执行自己的线程运行任务，也就是直接在调用`execute`方法的线程中运行(`run`)被拒绝的任务，如果执行程序已关闭，则会丢弃该任务。因此这种策略会降低对于新任务提交速度，影响程序的整体性能。如果您的应用程序可以承受此延迟并且你要求任何一个任务请求都要被执行的话，你可以选择这个策略。
 - **`ThreadPoolExecutor.DiscardPolicy`：** 不处理新任务，直接丢弃掉。
 - **`ThreadPoolExecutor.DiscardOldestPolicy`：** 此策略将丢弃最早的未处理的任务请求。
 
