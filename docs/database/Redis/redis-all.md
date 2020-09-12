@@ -151,7 +151,7 @@ OK
 **批量设置** :
 
 ``` bash
-127.0.0.1:6379> mest key1 value1 key2 value2 # 批量设置 key-value 类型的值
+127.0.0.1:6379> mset key1 value1 key2 value2 # 批量设置 key-value 类型的值
 OK
 127.0.0.1:6379> mget key1 key2 # 批量获取多个 key 对应的 value
 1) "value1"
@@ -476,7 +476,7 @@ typedef struct redisDb {
 
 Redis 提供 6 种数据淘汰策略：
 
-1. **volatile-lru（least frequently used）**：从已设置过期时间的数据集（server.db[i].expires）中挑选最近最少使用的数据淘汰
+1. **volatile-lru（least recently used）**：从已设置过期时间的数据集（server.db[i].expires）中挑选最近最少使用的数据淘汰
 2. **volatile-ttl**：从已设置过期时间的数据集（server.db[i].expires）中挑选将要过期的数据淘汰
 3. **volatile-random**：从已设置过期时间的数据集（server.db[i].expires）中任意选择数据淘汰
 4. **allkeys-lru（least recently used）**：当内存不足以容纳新写入数据时，在键空间中，移除最近最少使用的 key（这个是最常用的）
@@ -485,8 +485,8 @@ Redis 提供 6 种数据淘汰策略：
 
 4.0 版本后增加以下两种：
 
-7. **volatile-lfu**：从已设置过期时间的数据集(server.db[i].expires)中挑选最不经常使用的数据淘汰
-8. **allkeys-lfu**：当内存不足以容纳新写入数据时，在键空间中，移除最不经常使用的 key
+7. **volatile-lfu（least frequently used）**：从已设置过期时间的数据集(server.db[i].expires)中挑选最不经常使用的数据淘汰
+8. **allkeys-lfu（least frequently used）**：当内存不足以容纳新写入数据时，在键空间中，移除最不经常使用的 key
 
 ### 14. Redis 持久化机制(怎么保证 Redis 挂掉之后再重启数据可以进行恢复)
 
